@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FAF7F0;
+  --color-parchment: #F0E9DC;
+  --color-cream: #F0E9DC;
+  --color-porcelain: #FFFDF9;
+  --color-charcoal: #292722;
+  --color-deep-charcoal: #1E1D1A;
+  --color-warm-grey: #8B857A;
+  --color-gold: #C4A36B;
+  --color-bronze: #A77A52;
+  --color-divider: #DDD5C7;
+  --color-beige: #DDD5C7;
+
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --text-display-2xl: clamp(2.75rem, 6vw, 5.25rem);
+  --text-display-2xl--line-height: 1.05;
+  --text-display-2xl--letter-spacing: -0.025em;
+
+  --text-display-xl: clamp(2.25rem, 5vw, 4.25rem);
+  --text-display-xl--line-height: 1.1;
+  --text-display-xl--letter-spacing: -0.02em;
+
+  --text-display: clamp(1.85rem, 4vw, 3.25rem);
+  --text-display--line-height: 1.15;
+  --text-display--letter-spacing: -0.015em;
+
+  --transition-duration-400: 400ms;
+  --transition-duration-600: 600ms;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background-color: var(--color-ivory);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-porcelain);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ivory);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-divider);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Typography utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Section label styling */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* Atelier technical annotation */
+.atelier-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-warm-grey);
+}
+
+/* Hairline dividers */
+.hairline-b {
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.hairline-t {
+  border-top: 1px solid var(--color-divider);
+}
+
+.hairline-r {
+  border-right: 1px solid var(--color-divider);
+}
+
+.hairline-l {
+  border-left: 1px solid var(--color-divider);
+}
+
+/* Smooth transitions for interactive elements */
+a, button {
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease, transform 0.2s ease;
+}
+
+/* Canvas styling */
+canvas {
+  touch-action: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

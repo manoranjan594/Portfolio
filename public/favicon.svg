@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <rect width="32" height="32" rx="6" fill="#FAF7F0"/>
-  <text x="4" y="24" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="#292722">M</text>
-  <rect x="2" y="27" width="28" height="1.5" rx="0.75" fill="#C4A36B"/>
+  <rect width="32" height="32" rx="6" fill="#090A0C"/>
+  <rect x="1" y="1" width="30" height="30" rx="5" stroke="#262B33" stroke-width="1"/>
+  <text x="6" y="23" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="#E7E9EC">M</text>
+  <circle cx="24" cy="22" r="2" fill="#8AA9FF"/>
 </svg>

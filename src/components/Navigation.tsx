@@ -3,11 +3,11 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "About", href: "#about", num: "01" },
-  { label: "Skills", href: "#skills", num: "02" },
-  { label: "Work", href: "#projects", num: "03" },
-  { label: "Achievements", href: "#achievements", num: "04" },
-  { label: "Contact", href: "#contact", num: "05" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Contact", href: "#contact" },
 ] as const;
 
 const SCROLL_THRESHOLD = 20;
@@ -77,7 +77,7 @@ export default function Navigation() {
       const targetId = href.slice(1);
       const element = document.getElementById(targetId);
       if (element) {
-        const navHeight = 76;
+        const navHeight = 72;
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
           top: elementPosition - navHeight,
@@ -94,7 +94,7 @@ export default function Navigation() {
       opacity: 0,
       y: "-100%",
       transition: {
-        duration: 0.35,
+        duration: 0.25,
         ease: [0.4, 0, 0.2, 1],
       },
     },
@@ -102,7 +102,7 @@ export default function Navigation() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.45,
+        duration: 0.35,
         ease: [0.4, 0, 0.2, 1],
       },
     },
@@ -111,13 +111,13 @@ export default function Navigation() {
   const linkItemVariants: Variants = {
     closed: {
       opacity: 0,
-      y: 16,
-      transition: { duration: 0.2 },
+      y: 12,
+      transition: { duration: 0.15 },
     },
     open: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.35, ease: "easeOut" },
+      transition: { duration: 0.25, ease: "easeOut" },
     },
   };
 
@@ -125,18 +125,18 @@ export default function Navigation() {
     <>
       <header
         role="banner"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-[#FAF7F0]/92 backdrop-blur-md border-b border-[#DDD5C7] shadow-[0_2px_12px_rgba(41,39,34,0.03)]"
+            ? "bg-[#090A0C]/90 backdrop-blur-md border-b border-[#262B33] shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
             : "bg-transparent border-b border-transparent"
         }`}
       >
         <nav
-          aria-label="Atelier primary navigation"
+          aria-label="Primary navigation"
           className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12"
         >
-          <div className="flex h-20 items-center justify-between">
-            {/* Wordmark & Atelier Tag */}
+          <div className="flex h-18 sm:h-20 items-center justify-between">
+            {/* Clean Wordmark */}
             <a
               href="#"
               onClick={(e) => {
@@ -144,21 +144,21 @@ export default function Navigation() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 closeMobileMenu();
               }}
-              className="group flex items-baseline gap-3 relative z-50"
+              className="group flex items-baseline gap-2 relative z-50"
               aria-label="Manoranjan AT — Return to top"
             >
-              <span className="font-serif text-xl tracking-[0.08em] text-[#292722] group-hover:text-[#C4A36B] transition-colors duration-300">
-                MANORANJAN AT
+              <span className="font-display font-bold text-lg sm:text-xl tracking-tight text-[#E7E9EC] group-hover:text-[#8AA9FF] transition-colors duration-200">
+                Manoranjan AT
               </span>
-              <span className="hidden sm:inline-block font-mono text-[10px] tracking-[0.2em] uppercase text-[#8B857A]">
-                [ATELIER // 2026]
+              <span className="hidden md:inline-block font-mono text-[11px] text-[#9298A2] tracking-wider">
+                / Developer
               </span>
             </a>
 
             {/* Desktop Navigation Links */}
             <div className="hidden lg:flex items-center gap-8">
-              <div className="flex items-center gap-1 border border-[#DDD5C7]/70 bg-[#FFFDF9]/60 px-4 py-1.5 rounded-full backdrop-blur-sm">
-                {NAV_LINKS.map(({ label, href, num }) => {
+              <div className="flex items-center gap-7">
+                {NAV_LINKS.map(({ label, href }) => {
                   const targetId = href.slice(1);
                   const isActive = activeSection === targetId;
                   return (
@@ -166,18 +166,17 @@ export default function Navigation() {
                       key={href}
                       href={href}
                       onClick={(e) => handleLinkClick(e, href)}
-                      className={`relative px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 flex items-center gap-1.5 ${
+                      className={`relative font-sans text-xs tracking-wider uppercase transition-colors duration-200 py-1 ${
                         isActive
-                          ? "text-[#292722] font-semibold"
-                          : "text-[#8B857A] hover:text-[#292722]"
+                          ? "text-[#E7E9EC] font-semibold"
+                          : "text-[#9298A2] hover:text-[#E7E9EC]"
                       }`}
                       aria-current={isActive ? "true" : undefined}
                     >
-                      <span className="text-[9px] text-[#C4A36B] opacity-75">{num}</span>
                       <span>{label}</span>
                       {isActive && (
                         <span
-                          className="absolute bottom-0 left-3 right-3 h-[1px] bg-[#C4A36B]"
+                          className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-[#8AA9FF]"
                           aria-hidden="true"
                         />
                       )}
@@ -186,14 +185,14 @@ export default function Navigation() {
                 })}
               </div>
 
-              {/* Atelier Connect Action */}
+              {/* Contact Button */}
               <a
                 href="#contact"
                 onClick={(e) => handleLinkClick(e, "#contact")}
-                className="group inline-flex items-center gap-2 border border-[#C4A36B]/60 bg-[#FFFDF9] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#292722] hover:bg-[#C4A36B] hover:text-[#FAF7F0] hover:border-[#C4A36B] transition-all duration-300"
+                className="inline-flex items-center gap-1.5 border border-[#262B33] bg-[#14161A] hover:bg-[#1C1F24] hover:border-[#8AA9FF]/50 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] transition-all duration-200"
               >
                 <span>Get in Touch</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-[#C4A36B] group-hover:text-[#FAF7F0] transition-colors" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#8AA9FF]" />
               </a>
             </div>
 
@@ -201,10 +200,10 @@ export default function Navigation() {
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              className="relative z-50 flex h-10 w-10 items-center justify-center border border-[#DDD5C7] bg-[#FFFDF9] text-[#292722] hover:text-[#C4A36B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C4A36B] lg:hidden"
+              className="relative z-50 flex h-10 w-10 items-center justify-center border border-[#262B33] bg-[#14161A] text-[#E7E9EC] hover:text-[#8AA9FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8AA9FF] lg:hidden"
               aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-atelier-menu"
-              aria-label={isMobileMenuOpen ? "Close navigation drawer" : "Open navigation drawer"}
+              aria-controls="mobile-nav-menu"
+              aria-label={isMobileMenuOpen ? "Close navigation" : "Open navigation"}
             >
               <AnimatePresence mode="wait" initial={false}>
                 {isMobileMenuOpen ? (
@@ -215,7 +214,7 @@ export default function Navigation() {
                     exit={{ opacity: 0, rotate: 90 }}
                     transition={{ duration: 0.15 }}
                   >
-                    <X size={18} strokeWidth={1.75} />
+                    <X size={18} strokeWidth={2} />
                   </motion.span>
                 ) : (
                   <motion.span
@@ -225,7 +224,7 @@ export default function Navigation() {
                     exit={{ opacity: 0, rotate: -90 }}
                     transition={{ duration: 0.15 }}
                   >
-                    <Menu size={18} strokeWidth={1.75} />
+                    <Menu size={18} strokeWidth={2} />
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -234,28 +233,26 @@ export default function Navigation() {
         </nav>
       </header>
 
-      {/* Mobile Full-Screen Overlay */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            id="mobile-atelier-menu"
+            id="mobile-nav-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Atelier mobile menu"
+            aria-label="Mobile navigation"
             variants={overlayVariants}
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-[#FAF7F0] px-8 pt-28 pb-12 lg:hidden border-b border-[#DDD5C7]"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-[#090A0C] px-8 pt-28 pb-10 lg:hidden border-b border-[#262B33]"
           >
-            {/* Top Catalogue Reference */}
-            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#8B857A] border-b border-[#DDD5C7] pb-3">
-              DIRECTORY // ATELIER NAVIGATION
+            <div className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#9298A2] border-b border-[#262B33] pb-3">
+              Navigation Menu
             </div>
 
-            {/* Menu List */}
-            <motion.nav className="flex flex-col gap-3 py-6" aria-label="Mobile navigation links">
-              {NAV_LINKS.map(({ label, href, num }) => {
+            <motion.nav className="flex flex-col gap-4 py-8" aria-label="Mobile navigation links">
+              {NAV_LINKS.map(({ label, href }) => {
                 const targetId = href.slice(1);
                 const isActive = activeSection === targetId;
                 return (
@@ -264,31 +261,32 @@ export default function Navigation() {
                     href={href}
                     onClick={(e) => handleLinkClick(e, href)}
                     variants={linkItemVariants}
-                    className="flex items-baseline justify-between py-2 border-b border-[#DDD5C7]/50"
+                    className="flex items-center justify-between py-2 border-b border-[#1C1F24]"
                   >
-                    <span className={`font-serif text-3xl transition-colors ${isActive ? 'text-[#C4A36B]' : 'text-[#292722] hover:text-[#C4A36B]'}`}>
+                    <span className={`font-display text-2xl font-semibold transition-colors ${isActive ? 'text-[#8AA9FF]' : 'text-[#E7E9EC]'}`}>
                       {label}
                     </span>
-                    <span className="font-mono text-xs text-[#C4A36B]">{num}</span>
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
+                    )}
                   </motion.a>
                 );
               })}
             </motion.nav>
 
-            {/* Mobile Footer CTAs & Info */}
             <div className="space-y-4">
               <a
                 href="#contact"
                 onClick={(e) => handleLinkClick(e, "#contact")}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-[#292722] text-[#FAF7F0] font-mono text-xs uppercase tracking-[0.18em]"
+                className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#8AA9FF] text-[#090A0C] font-mono text-xs uppercase tracking-wider font-semibold"
               >
-                <span>Initiate Contact</span>
-                <ArrowUpRight className="w-4 h-4 text-[#C4A36B]" />
+                <span>Contact Me</span>
+                <ArrowUpRight className="w-4 h-4" />
               </a>
 
-              <div className="flex justify-between items-center text-[10px] font-mono text-[#8B857A] tracking-widest uppercase pt-2">
-                <span>MANORANJAN AT</span>
-                <span>BIET CS&E · 3RD SEM</span>
+              <div className="flex justify-between items-center text-[10px] font-mono text-[#9298A2] tracking-wider pt-2">
+                <span>Manoranjan AT</span>
+                <span>BIET CSE</span>
               </div>
             </div>
           </motion.div>

@@ -9,73 +9,64 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#1E1D1A] text-[#FAF7F0] border-t border-[#292722]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#292722]/80 items-baseline">
-          {/* Col 1-6: Colophon */}
-          <div className="md:col-span-6 space-y-2">
-            <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-[#C4A36B] block">
-              COLOPHON // DIGITAL ATELIER
-            </span>
-            <h3 className="font-serif text-2xl text-[#FAF7F0]">
+    <footer className="bg-[#090A0C] text-[#9298A2] border-t border-[#1C2026]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#1C2026]">
+          {/* Left: Identity */}
+          <div>
+            <span className="font-display font-bold text-xl text-[#E7E9EC] block">
               Manoranjan AT
-            </h3>
-            <p className="text-xs text-[#8B857A] max-w-sm leading-relaxed">
-              Designed &amp; engineered by Manoranjan AT. Computer Science and Engineering student at Bapuji Institute of Engineering and Technology, Davangere.
-            </p>
+            </span>
+            <span className="text-xs font-mono text-[#9298A2]">
+              Aspiring Software Developer · BIET Davangere
+            </span>
           </div>
 
-          {/* Col 7-9: Navigation Coordinates */}
-          <div className="md:col-span-3 space-y-2 font-mono text-xs">
-            <span className="text-[10px] tracking-widest text-[#8B857A] uppercase block">INDEX DIRECTORY</span>
-            <ul className="space-y-1.5 text-xs text-[#DDD5C7]">
-              <li><a href="#about" className="hover:text-[#C4A36B] transition-colors">01 Profile</a></li>
-              <li><a href="#skills" className="hover:text-[#C4A36B] transition-colors">02 Technical Toolkit</a></li>
-              <li><a href="#projects" className="hover:text-[#C4A36B] transition-colors">03 Selected Works</a></li>
-              <li><a href="#achievements" className="hover:text-[#C4A36B] transition-colors">04 Milestones</a></li>
-              <li><a href="#contact" className="hover:text-[#C4A36B] transition-colors">05 Dispatch</a></li>
-            </ul>
+          {/* Center: Clean Nav anchors */}
+          <div className="flex items-center gap-6 font-sans text-xs tracking-wider uppercase">
+            <a href="#about" className="hover:text-[#8AA9FF] transition-colors">About</a>
+            <a href="#skills" className="hover:text-[#8AA9FF] transition-colors">Skills</a>
+            <a href="#projects" className="hover:text-[#8AA9FF] transition-colors">Projects</a>
+            <a href="#achievements" className="hover:text-[#8AA9FF] transition-colors">Achievements</a>
+            <a href="#contact" className="hover:text-[#8AA9FF] transition-colors">Contact</a>
           </div>
 
-          {/* Col 10-12: Direct Connection Channels */}
-          <div className="md:col-span-3 space-y-2 font-mono text-xs">
-            <span className="text-[10px] tracking-widest text-[#8B857A] uppercase block">REPOSITORIES &amp; NETWORK</span>
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://github.com/manoranjan594"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 border border-[#DDD5C7]/20 flex items-center justify-center text-[#FAF7F0] hover:border-[#C4A36B] hover:text-[#C4A36B] transition-colors"
-                aria-label="GitHub profile"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/manoranjan-at-16508735b/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 border border-[#DDD5C7]/20 flex items-center justify-center text-[#FAF7F0] hover:border-[#C4A36B] hover:text-[#C4A36B] transition-colors"
-                aria-label="LinkedIn profile"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-            </div>
+          {/* Right: Social Links */}
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/manoranjan594"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 border border-[#262B33] bg-[#14161A] flex items-center justify-center text-[#E7E9EC] hover:border-[#8AA9FF] hover:text-[#8AA9FF] transition-colors"
+              aria-label="GitHub profile"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/manoranjan-at-16508735b/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 border border-[#262B33] bg-[#14161A] flex items-center justify-center text-[#E7E9EC] hover:border-[#8AA9FF] hover:text-[#8AA9FF] transition-colors"
+              aria-label="LinkedIn profile"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Back to Top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#8B857A]">
+        {/* Bottom row */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
           <div>
-            <span>© {CURRENT_YEAR} MANORANJAN AT · ALL RIGHTS RESERVED</span>
+            <span>© {CURRENT_YEAR} Manoranjan AT. All rights reserved.</span>
           </div>
 
           <button
             onClick={scrollToTop}
-            className="group flex items-center gap-2 hover:text-[#C4A36B] transition-colors"
-            aria-label="Scroll back to top of page"
+            className="group flex items-center gap-2 hover:text-[#8AA9FF] transition-colors"
+            aria-label="Back to top"
           >
-            <span>BACK TO TOP</span>
-            <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform text-[#C4A36B]" />
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform text-[#8AA9FF]" />
           </button>
         </div>
       </div>

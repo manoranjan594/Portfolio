@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, ArrowUpRight, MapPin, Clock, Globe } from 'lucide-react';
+import { Mail, Send, ArrowUpRight, MapPin, Clock } from 'lucide-react';
 import { Github, Linkedin } from './Icons';
 
 interface FormData {
@@ -43,7 +43,7 @@ export default function Contact() {
     if (!validate()) return;
 
     const subject = encodeURIComponent(
-      formData.subject || `Inquiry from ${formData.name} via Portfolio`
+      formData.subject || `Inquiry from ${formData.name}`
     );
     const body = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
@@ -52,21 +52,21 @@ export default function Contact() {
     window.location.href = mailtoLink;
   };
 
-  const directChannels = [
+  const channels = [
     {
-      label: 'Email Dispatch',
+      label: 'Email',
       value: 'manoranjanat527@gmail.com',
       href: 'mailto:manoranjanat527@gmail.com',
       icon: <Mail className="w-4 h-4" />,
     },
     {
-      label: 'GitHub Code Repositories',
+      label: 'GitHub',
       value: 'github.com/manoranjan594',
       href: 'https://github.com/manoranjan594',
       icon: <Github className="w-4 h-4" />,
     },
     {
-      label: 'LinkedIn Professional Profile',
+      label: 'LinkedIn',
       value: 'linkedin.com/in/manoranjan-at-16508735b',
       href: 'https://www.linkedin.com/in/manoranjan-at-16508735b/',
       icon: <Linkedin className="w-4 h-4" />,
@@ -74,56 +74,55 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 lg:py-36 bg-[#FFFDF9] border-t border-[#DDD5C7]">
+    <section id="contact" className="py-24 lg:py-32 bg-[#090A0C] border-t border-[#1C2026]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 lg:mb-20"
+          transition={{ duration: 0.55 }}
+          className="mb-14 lg:mb-18"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-2 h-2 bg-[#C4A36B]" />
-            <span className="section-label">[OP. 08 — INITIATE CONTACT]</span>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
+            <span className="section-tag">Contact</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#DDD5C7]">
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] text-[#292722] leading-tight">
-              Have an idea, opportunity, or <br className="hidden sm:block" />
-              <em className="italic font-serif text-[#C4A36B]">project</em> in mind?
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#262B33]">
+            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#E7E9EC] tracking-tight">
+              Get in touch. <br />
+              <span className="text-[#8AA9FF] font-normal">Open to collaboration &amp; opportunities.</span>
             </h2>
-            <p className="max-w-md text-sm text-[#77736B] font-sans">
-              I&rsquo;m always interested in learning, connecting with fellow developers, and exploring opportunities to build useful digital products together.
+            <p className="max-w-md text-sm text-[#9298A2] font-sans">
+              I welcome conversations about internship opportunities, hackathons, and software engineering collaborations.
             </p>
           </div>
         </motion.div>
 
-        {/* Contact Layout: Form on Left, Direct Channels on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* Contact Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           
-          {/* LEFT: Inquiry Form */}
+          {/* Form */}
           <motion.div
-            className="lg:col-span-7 border border-[#DDD5C7] bg-[#FAF7F0] p-8 sm:p-12 shadow-[0_4px_30px_rgba(41,39,34,0.02)]"
+            className="lg:col-span-7 border border-[#262B33] bg-[#14161A] p-7 sm:p-10 shadow-xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.55 }}
           >
-            <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#DDD5C7]">
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#A77A52]">
-                DIRECT DISPATCH FORM
+            <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#262B33]">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#8AA9FF]">
+                Send an Email Message
               </span>
-              <span className="font-mono text-[10px] text-[#8B857A]">MAILTO PROTOCOL</span>
+              <span className="font-mono text-[10px] text-[#9298A2]">Direct Mailto</span>
             </div>
 
-            <form onSubmit={handleSubmit} noValidate className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Name */}
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label htmlFor="name" className="block font-mono text-[11px] uppercase tracking-wider text-[#292722] mb-2">
-                    Full Name <span className="text-[#C4A36B]">*</span>
+                  <label htmlFor="name" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
+                    Name <span className="text-[#8AA9FF]">*</span>
                   </label>
                   <input
                     type="text"
@@ -131,18 +130,17 @@ export default function Contact() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className={`w-full px-4 py-3 bg-[#FFFDF9] border text-[#292722] text-sm font-sans focus:outline-none focus:border-[#C4A36B] transition-colors ${
-                      errors.name ? 'border-red-400' : 'border-[#DDD5C7]'
+                    className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors ${
+                      errors.name ? 'border-red-400' : 'border-[#262B33]'
                     }`}
-                    placeholder="Jane Doe"
+                    placeholder="Your Name"
                   />
-                  {errors.name && <p className="mt-1 text-xs text-red-500 font-mono">{errors.name}</p>}
+                  {errors.name && <p className="mt-1 text-xs text-red-400 font-mono">{errors.name}</p>}
                 </div>
 
-                {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block font-mono text-[11px] uppercase tracking-wider text-[#292722] mb-2">
-                    Email Address <span className="text-[#C4A36B]">*</span>
+                  <label htmlFor="email" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
+                    Email <span className="text-[#8AA9FF]">*</span>
                   </label>
                   <input
                     type="email"
@@ -150,134 +148,118 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={`w-full px-4 py-3 bg-[#FFFDF9] border text-[#292722] text-sm font-sans focus:outline-none focus:border-[#C4A36B] transition-colors ${
-                      errors.email ? 'border-red-400' : 'border-[#DDD5C7]'
+                    className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors ${
+                      errors.email ? 'border-red-400' : 'border-[#262B33]'
                     }`}
-                    placeholder="jane@example.com"
+                    placeholder="you@example.com"
                   />
-                  {errors.email && <p className="mt-1 text-xs text-red-500 font-mono">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-xs text-red-400 font-mono">{errors.email}</p>}
                 </div>
               </div>
 
-              {/* Subject */}
               <div>
-                <label htmlFor="subject" className="block font-mono text-[11px] uppercase tracking-wider text-[#292722] mb-2">
-                  Subject <span className="text-[#8B857A] lowercase font-normal">(optional)</span>
+                <label htmlFor="subject" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
+                  Subject <span className="text-[#9298A2] font-normal lowercase">(optional)</span>
                 </label>
                 <input
                   type="text"
                   id="subject"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#FFFDF9] border border-[#DDD5C7] text-[#292722] text-sm font-sans focus:outline-none focus:border-[#C4A36B] transition-colors"
-                  placeholder="Internship / Collaboration / General Inquiry"
+                  className="w-full px-4 py-3 bg-[#1C1F24] border border-[#262B33] text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors"
+                  placeholder="Internship / Project Discussion / General"
                 />
               </div>
 
-              {/* Message */}
               <div>
-                <label htmlFor="message" className="block font-mono text-[11px] uppercase tracking-wider text-[#292722] mb-2">
-                  Message <span className="text-[#C4A36B]">*</span>
+                <label htmlFor="message" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
+                  Message <span className="text-[#8AA9FF]">*</span>
                 </label>
                 <textarea
                   id="message"
                   required
-                  rows={5}
+                  rows={4}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className={`w-full px-4 py-3 bg-[#FFFDF9] border text-[#292722] text-sm font-sans focus:outline-none focus:border-[#C4A36B] transition-colors resize-y min-h-[120px] ${
-                    errors.message ? 'border-red-400' : 'border-[#DDD5C7]'
+                  className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors resize-y min-h-[110px] ${
+                    errors.message ? 'border-red-400' : 'border-[#262B33]'
                   }`}
-                  placeholder="Share details regarding your idea, opportunity, or question..."
+                  placeholder="Tell me about your project, idea, or role..."
                 />
-                {errors.message && <p className="mt-1 text-xs text-red-500 font-mono">{errors.message}</p>}
+                {errors.message && <p className="mt-1 text-xs text-red-400 font-mono">{errors.message}</p>}
               </div>
 
-              {/* Submit CTA */}
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-3 bg-[#292722] text-[#FAF7F0] px-8 py-3.5 font-mono text-xs uppercase tracking-[0.18em] hover:bg-[#C4A36B] active:scale-[0.99] transition-all duration-300"
+                  className="inline-flex items-center gap-2.5 bg-[#8AA9FF] text-[#090A0C] font-semibold px-7 py-3 font-mono text-xs uppercase tracking-wider hover:bg-[#A3BCFF] transition-colors"
                 >
-                  <Send className="w-3.5 h-3.5 text-[#C4A36B]" />
-                  <span>Send Message via Email</span>
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Send via Email Client</span>
                 </button>
-                <p className="font-mono text-[10px] text-[#8B857A] mt-3">
-                  This action generates a pre-formatted email in your default client addressed to manoranjanat527@gmail.com.
+                <p className="font-mono text-[10px] text-[#9298A2] mt-2">
+                  Pre-fills an email addressed to manoranjanat527@gmail.com in your default client.
                 </p>
               </div>
             </form>
           </motion.div>
 
-          {/* RIGHT: Direct Verification Channels */}
+          {/* Direct Channels & Details */}
           <motion.div
-            className="lg:col-span-5 space-y-6"
+            className="lg:col-span-5 space-y-5"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
           >
-            {/* Direct Connect Dossier */}
-            <div className="border border-[#DDD5C7] bg-[#FFFDF9] p-8">
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-[#C4A36B] pb-3 mb-6 border-b border-[#DDD5C7]">
-                [DIRECT CHANNELS]
+            <div className="border border-[#262B33] bg-[#14161A] p-6 sm:p-7">
+              <div className="font-mono text-xs uppercase tracking-wider text-[#8AA9FF] pb-3 mb-5 border-b border-[#262B33]">
+                Direct Contact Channels
               </div>
 
-              <div className="space-y-4">
-                {directChannels.map((channel) => (
+              <div className="space-y-3">
+                {channels.map((c) => (
                   <a
-                    key={channel.label}
-                    href={channel.href}
-                    target={channel.href.startsWith('mailto') ? undefined : '_blank'}
-                    rel={channel.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-                    className="group flex items-center justify-between p-4 border border-[#DDD5C7] bg-[#FAF7F0] hover:border-[#C4A36B] transition-colors"
+                    key={c.label}
+                    href={c.href}
+                    target={c.href.startsWith('mailto') ? undefined : '_blank'}
+                    rel={c.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+                    className="group flex items-center justify-between p-3.5 border border-[#262B33] bg-[#1C1F24] hover:border-[#8AA9FF]/50 transition-colors"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded border border-[#DDD5C7] bg-[#FFFDF9] flex items-center justify-center text-[#C4A36B] group-hover:text-[#292722] transition-colors shrink-0">
-                        {channel.icon}
+                      <div className="w-8 h-8 rounded border border-[#262B33] bg-[#14161A] flex items-center justify-center text-[#8AA9FF] shrink-0">
+                        {c.icon}
                       </div>
                       <div className="min-w-0">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#8B857A] block">
-                          {channel.label}
+                        <span className="font-mono text-[10px] uppercase text-[#9298A2] block">
+                          {c.label}
                         </span>
-                        <span className="text-xs text-[#292722] font-medium truncate block">
-                          {channel.value}
+                        <span className="text-xs text-[#E7E9EC] font-medium truncate block">
+                          {c.value}
                         </span>
                       </div>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-[#8B857A] group-hover:text-[#C4A36B] group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+                    <ArrowUpRight className="w-4 h-4 text-[#9298A2] group-hover:text-[#8AA9FF] transition-colors shrink-0 ml-2" />
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Geographical & Academic Registry */}
-            <div className="border border-[#DDD5C7] bg-[#F0E9DC]/40 p-6 space-y-4 font-mono text-xs">
-              <div className="text-[10px] uppercase tracking-widest text-[#8B857A] border-b border-[#DDD5C7] pb-2">
-                REGISTRY SPECIFICATION
-              </div>
-
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#C4A36B] shrink-0 mt-0.5" />
+            {/* Location & Status Note */}
+            <div className="border border-[#262B33] bg-[#14161A] p-6 space-y-3 font-mono text-xs text-[#9298A2]">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-[#8AA9FF] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[#8B857A] block text-[10px] uppercase">LOCATION</span>
-                  <span className="text-[#292722]">Davangere, Karnataka, India</span>
+                  <span className="text-[#E7E9EC] block">Davangere, Karnataka, India</span>
+                  <span className="text-[10px]">Bapuji Institute of Engineering &amp; Technology</span>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <Clock className="w-4 h-4 text-[#C4A36B] shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2.5 pt-2 border-t border-[#1C2026]">
+                <Clock className="w-4 h-4 text-[#8AA9FF] shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[#8B857A] block text-[10px] uppercase">TIMEZONE</span>
-                  <span className="text-[#292722]">Indian Standard Time (UTC+05:30)</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Globe className="w-4 h-4 text-[#C4A36B] shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-[#8B857A] block text-[10px] uppercase">CURRENT STATUS</span>
-                  <span className="text-[#292722]">Full-time B.E. Student · Available for Collaborations</span>
+                  <span className="text-[#E7E9EC] block">Indian Standard Time (UTC+05:30)</span>
+                  <span className="text-[10px]">Active student &amp; developer</span>
                 </div>
               </div>
             </div>

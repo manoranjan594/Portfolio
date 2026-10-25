@@ -1,81 +1,87 @@
 import { motion, type Variants } from 'framer-motion';
-import { Terminal, Globe, GitBranch, Brain, Cpu, Film } from 'lucide-react';
+import { Terminal, Globe, GitBranch, Cpu, Film, Sparkles } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 interface SkillCategory {
-  index: string;
   title: string;
+  badge: string;
   icon: ReactNode;
-  scope: string;
-  items: { name: string; tag: string }[];
+  description: string;
+  skills: { name: string; level: string }[];
 }
 
-const skillCategories: SkillCategory[] = [
+const activeSkills: SkillCategory[] = [
   {
-    index: '01',
     title: 'Core Programming',
+    badge: 'Languages in Active Use',
     icon: <Terminal className="w-4 h-4" />,
-    scope: 'Foundational languages for problem-solving & data structures',
-    items: [
-      { name: 'Python', tag: 'Core / Scripting' },
-      { name: 'C', tag: 'Systems Foundations' },
-      { name: 'Java', tag: 'Object-Oriented' },
+    description: 'Developing foundational problem-solving and algorithmic thinking.',
+    skills: [
+      { name: 'Python', level: 'Actively Writing & Practicing' },
+      { name: 'C', level: 'Systems & Memory Foundations' },
+      { name: 'Java', level: 'Object-Oriented Concepts' },
     ],
   },
   {
-    index: '02',
     title: 'Web Technologies',
+    badge: 'Frontend Foundations',
     icon: <Globe className="w-4 h-4" />,
-    scope: 'Structuring and styling responsive digital experiences',
-    items: [
-      { name: 'HTML5', tag: 'Semantic Structure' },
-      { name: 'CSS3', tag: 'Responsive Layouts & Styling' },
+    description: 'Structuring and styling responsive digital experiences.',
+    skills: [
+      { name: 'HTML5', level: 'Semantic Structure & Accessibility' },
+      { name: 'CSS3', level: 'Responsive Layouts & Visual Styling' },
     ],
   },
   {
-    index: '03',
-    title: 'Version Control & Tools',
+    title: 'Development Workflow',
+    badge: 'Source Management',
     icon: <GitBranch className="w-4 h-4" />,
-    scope: 'Source control, code management, and repository workflow',
-    items: [
-      { name: 'Git', tag: 'Version Control' },
-      { name: 'GitHub', tag: 'Repository Collaboration' },
+    description: 'Tracking code revisions and repository collaboration.',
+    skills: [
+      { name: 'Git', level: 'Version Control & Branching' },
+      { name: 'GitHub', level: 'Repository Hosting & Code Sharing' },
     ],
   },
   {
-    index: '04',
-    title: 'Analytical & Problem-Solving',
-    icon: <Brain className="w-4 h-4" />,
-    scope: 'Methodical approaches to breaking down technical challenges',
-    items: [
-      { name: 'Problem Solving', tag: 'Algorithmic Thinking' },
-      { name: 'Debugging Practice', tag: 'Root-Cause Analysis' },
-      { name: 'Logical Structuring', tag: 'Step-by-step logic' },
-      { name: 'Continuous Learning', tag: 'Active Skill Development' },
-    ],
-  },
-  {
-    index: '05',
-    title: 'AI & Data Foundations',
+    title: 'Problem-Solving Mindset',
+    badge: 'Analytical Strengths',
     icon: <Cpu className="w-4 h-4" />,
-    scope: 'Theoretical principles & emerging application concepts',
-    items: [
-      { name: 'Machine Learning', tag: 'Foundational Concepts' },
-      { name: 'Data Science', tag: 'Core Principles' },
-      { name: 'Data Analysis', tag: 'Analytical Fundamentals' },
-      { name: 'AI Application Concepts', tag: 'Conceptual Exploration' },
+    description: 'Approaching computational challenges with patience and discipline.',
+    skills: [
+      { name: 'Debugging Practice', level: 'Systematic Root-Cause Analysis' },
+      { name: 'Algorithmic Thinking', level: 'Step-by-Step Logic Design' },
+      { name: 'Continuous Learning', level: 'Hands-on Experimentation' },
     ],
   },
   {
-    index: '06',
-    title: 'Creative Craft',
+    title: 'Creative Media',
+    badge: 'Visual Design Craft',
     icon: <Film className="w-4 h-4" />,
-    scope: 'Visual media, composition, pacing, and graphic design',
-    items: [
-      { name: 'Videography', tag: 'Cinematography & Editing' },
-      { name: 'Poster Design', tag: 'Graphic Hierarchy' },
-      { name: 'Content Creation', tag: 'Visual Communication' },
+    description: 'Translating concepts into compelling visual communication.',
+    skills: [
+      { name: 'Videography', level: 'Camera Operation & Video Editing' },
+      { name: 'Poster Design', level: 'Composition, Pacing & Layout' },
+      { name: 'Content Creation', level: 'Visual Storytelling' },
     ],
+  },
+];
+
+const exploringAreas = [
+  {
+    title: 'Full-Stack Development',
+    note: 'Connecting client interfaces with server endpoints and database layers.',
+  },
+  {
+    title: 'Machine Learning Concepts',
+    note: 'Grasping foundational predictive models, mathematics, and data flows.',
+  },
+  {
+    title: 'AI Agent Architecture',
+    note: 'Exploring autonomous tool-use, workflow chains, and model reasoning.',
+  },
+  {
+    title: 'Practical Software Products',
+    note: 'Building utility-driven digital tools that address genuine real-world needs.',
   },
 ];
 
@@ -83,9 +89,7 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-    },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
@@ -94,98 +98,126 @@ const itemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 lg:py-36 bg-[#FFFDF9] border-t border-[#DDD5C7]">
+    <section id="skills" className="py-24 lg:py-32 bg-[#090A0C] border-t border-[#1C2026]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 lg:mb-20"
+          transition={{ duration: 0.55 }}
+          className="mb-14 lg:mb-18"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-2 h-2 bg-[#C4A36B]" />
-            <span className="section-label">[OP. 03 — TECHNICAL TOOLKIT]</span>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
+            <span className="section-tag">Technical Skills &amp; Toolkit</span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#DDD5C7]">
-            <h2 className="font-serif text-[clamp(2rem,4vw,3.25rem)] text-[#292722] leading-tight">
-              Honest capability &amp; <br className="hidden sm:block" />
-              <em className="italic font-serif text-[#C4A36B]">active</em> disciplines.
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#262B33]">
+            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#E7E9EC] tracking-tight">
+              Technologies in use. <br />
+              <span className="text-[#8AA9FF] font-normal">Clearly stated capabilities.</span>
             </h2>
-            <p className="max-w-md text-sm text-[#77736B] font-sans">
-              A factual breakdown of the programming languages, web technologies, and creative disciplines I actively practice—without inflated ratings or artificial metrics.
+            <p className="max-w-md text-sm text-[#9298A2] font-sans">
+              An honest account of the programming languages, web technologies, and problem-solving practices I work with—without inflated ratings or artificial metrics.
             </p>
           </div>
         </motion.div>
 
-        {/* Ledger Grid: Editorial 3-Column Catalog */}
+        {/* Part 1: Current Working Skills */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
         >
-          {skillCategories.map((cat) => (
+          {activeSkills.map((cat) => (
             <motion.div
               key={cat.title}
               variants={itemVariants}
-              className="border border-[#DDD5C7] bg-[#FAF7F0] p-6 sm:p-7 flex flex-col justify-between hover:border-[#C4A36B] transition-colors duration-300 group"
+              className="border border-[#262B33] bg-[#14161A] p-6 hover:border-[#8AA9FF]/40 transition-colors duration-200 flex flex-col justify-between"
             >
               <div>
-                {/* Category Header */}
-                <div className="flex items-center justify-between pb-4 mb-4 border-b border-[#DDD5C7]/70">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-[#C4A36B] group-hover:text-[#292722] transition-colors">
-                      {cat.icon}
-                    </span>
-                    <h3 className="font-serif text-lg text-[#292722]">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#262B33]">
+                  <div className="flex items-center gap-2 text-[#8AA9FF]">
+                    {cat.icon}
+                    <h3 className="font-display font-semibold text-base text-[#E7E9EC]">
                       {cat.title}
                     </h3>
                   </div>
-                  <span className="font-mono text-xs text-[#8B857A]">
-                    {cat.index}
-                  </span>
                 </div>
 
-                {/* Scope Note */}
-                <p className="text-xs text-[#77736B] mb-6 leading-relaxed">
-                  {cat.scope}
+                <p className="text-xs text-[#9298A2] mb-5 leading-relaxed">
+                  {cat.description}
                 </p>
 
-                {/* Skill Items List */}
-                <ul className="space-y-2.5" role="list">
-                  {cat.items.map((item) => (
+                <ul className="space-y-2.5">
+                  {cat.skills.map((s) => (
                     <li
-                      key={item.name}
-                      className="flex items-baseline justify-between py-1.5 px-2.5 bg-[#FFFDF9] border border-[#DDD5C7]/60 text-xs transition-colors hover:border-[#C4A36B]/60"
+                      key={s.name}
+                      className="flex items-baseline justify-between p-2 bg-[#1C1F24] border border-[#262B33] text-xs"
                     >
-                      <span className="font-medium text-[#292722]">
-                        {item.name}
-                      </span>
-                      <span className="font-mono text-[10px] text-[#8B857A] tracking-wider uppercase">
-                        {item.tag}
-                      </span>
+                      <span className="font-medium text-[#E7E9EC]">{s.name}</span>
+                      <span className="font-mono text-[10px] text-[#9298A2]">{s.level}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Bottom Tag */}
-              <div className="pt-6 mt-6 border-t border-[#DDD5C7]/50 flex items-center justify-between text-[10px] font-mono tracking-widest text-[#8B857A] uppercase">
+              <div className="pt-4 mt-5 border-t border-[#262B33] flex items-center justify-between text-[10px] font-mono text-[#9298A2] uppercase tracking-wider">
                 <span>STATUS</span>
-                <span className="text-[#C4A36B] font-semibold">ACTIVELY PRACTICING</span>
+                <span className="text-[#8AA9FF] font-semibold">{cat.badge}</span>
               </div>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Part 2: Clearly Separated Areas Exploring */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55 }}
+          className="border border-[#262B33] bg-[#14161A] p-8 sm:p-10"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-[#262B33]">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#8AA9FF]" />
+              <h3 className="font-display font-semibold text-xl text-[#E7E9EC]">
+                Currently Exploring
+              </h3>
+            </div>
+            <span className="font-mono text-xs text-[#8AA9FF] tracking-wider uppercase">
+              Areas of Active Learning &amp; Interest
+            </span>
+          </div>
+
+          <p className="text-xs sm:text-sm text-[#9298A2] leading-relaxed mb-6 max-w-3xl">
+            These are emerging domains I am actively studying and experimenting with, framed as learning interests rather than claims of professional mastery:
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {exploringAreas.map((area) => (
+              <div
+                key={area.title}
+                className="border border-[#262B33] bg-[#1C1F24] p-4 hover:border-[#8AA9FF]/30 transition-colors"
+              >
+                <h4 className="font-display font-medium text-sm text-[#E7E9EC] mb-1.5">
+                  {area.title}
+                </h4>
+                <p className="text-xs text-[#9298A2] leading-relaxed">
+                  {area.note}
+                </p>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

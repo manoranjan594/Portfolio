@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, Suspense, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Environment, Float, ContactShadows } from '@react-three/drei';
+import { Float, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { SculptureFallback } from './SculptureFallback';
 
@@ -39,20 +39,18 @@ function supportsWebGL(): boolean {
 }
 
 /* ------------------------------------------------------------------ */
-/*  The Atelier Totem Sculptural Assembly                             */
+/*  Precision Machined Titanium Monolith Sculpture                    */
 /* ------------------------------------------------------------------ */
-interface TotemProps {
+interface SculptureProps {
   reducedMotion: boolean;
 }
 
-function AtelierTotem({ reducedMotion }: TotemProps) {
+function ArchitecturalMonolith({ reducedMotion }: SculptureProps) {
   const groupRef = useRef<THREE.Group>(null!);
   const coreRef = useRef<THREE.Mesh>(null!);
-  const goldRingRef = useRef<THREE.Group>(null!);
-  const bronzeArmatureRef = useRef<THREE.Group>(null!);
-  const outerHorizonRef = useRef<THREE.Mesh>(null!);
-  const satellite1Ref = useRef<THREE.Mesh>(null!);
-  const satellite2Ref = useRef<THREE.Mesh>(null!);
+  const outerBand1Ref = useRef<THREE.Group>(null!);
+  const outerBand2Ref = useRef<THREE.Group>(null!);
+  const horizonRingRef = useRef<THREE.Mesh>(null!);
 
   const { viewport } = useThree();
 
@@ -62,7 +60,6 @@ function AtelierTotem({ reducedMotion }: TotemProps) {
 
   useEffect(() => {
     const onPointerMove = (e: PointerEvent) => {
-      // Normalize -1 to 1 based on window
       mouseTarget.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouseTarget.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
@@ -73,46 +70,45 @@ function AtelierTotem({ reducedMotion }: TotemProps) {
   // Entrance scale animation
   const entranceProgress = useRef(0);
 
-  // Materials setup with memory disposal tracking
+  // Materials setup
   const materials = useMemo(() => {
     return {
-      // 1. Honed Alabaster / Porcelain Core
-      porcelain: new THREE.MeshPhysicalMaterial({
-        color: '#FAF5EE',
-        roughness: 0.28,
-        metalness: 0.06,
-        clearcoat: 0.45,
+      // 1. Dark Brushed Titanium Monolith
+      titaniumDark: new THREE.MeshPhysicalMaterial({
+        color: '#1C1F26',
+        metalness: 0.92,
+        roughness: 0.22,
+        clearcoat: 0.4,
         clearcoatRoughness: 0.15,
-        reflectivity: 0.6,
-        envMapIntensity: 1.1,
+        reflectivity: 0.7,
       }),
-      // 2. Champagne Gold Polished Metal
-      champagneGold: new THREE.MeshStandardMaterial({
-        color: '#C4A36B',
-        metalness: 0.94,
-        roughness: 0.16,
-        envMapIntensity: 1.5,
+      // 2. Precision Platinum Structural Band
+      platinumBand: new THREE.MeshStandardMaterial({
+        color: '#D4D8E0',
+        metalness: 0.96,
+        roughness: 0.18,
       }),
-      // 3. Muted Bronze Architectural Armature
-      mutedBronze: new THREE.MeshStandardMaterial({
-        color: '#9C7049',
+      // 3. Graphite Secondary Framing
+      graphiteMetal: new THREE.MeshStandardMaterial({
+        color: '#2A2E38',
         metalness: 0.88,
-        roughness: 0.26,
-        envMapIntensity: 1.2,
+        roughness: 0.28,
       }),
-      // 4. Fine Dark Charcoal Accent Metal
-      darkAccent: new THREE.MeshStandardMaterial({
-        color: '#292722',
-        metalness: 0.8,
-        roughness: 0.35,
+      // 4. Subtle Electric Blue Accent Pivot Pin
+      electricAccent: new THREE.MeshStandardMaterial({
+        color: '#8AA9FF',
+        metalness: 0.9,
+        roughness: 0.15,
+        emissive: '#8AA9FF',
+        emissiveIntensity: 0.18,
       }),
     };
   }, []);
 
-  // Clean up materials when unmounted to prevent VRAM accumulation on older graphics
+  // Clean up materials on unmount
   useEffect(() => {
     return () => {
-      Object.values(materials).forEach((mat) => mat.dispose());
+      Object.values(materials).forEach((m) => m.dispose());
     };
   }, [materials]);
 
@@ -131,133 +127,114 @@ function AtelierTotem({ reducedMotion }: TotemProps) {
 
     const time = state.clock.getElapsedTime();
 
-    // Smooth lerp pointer interaction (damped frame-rate independent)
+    // Smooth lerp pointer interaction
     mouseCurrent.current.x = THREE.MathUtils.lerp(
       mouseCurrent.current.x,
       mouseTarget.current.x,
-      delta * 2.5
+      delta * 2.2
     );
     mouseCurrent.current.y = THREE.MathUtils.lerp(
       mouseCurrent.current.y,
       mouseTarget.current.y,
-      delta * 2.5
+      delta * 2.2
     );
 
-    // Responsive gyro tilt applied to master group
+    // Responsive subtle gyro tilt
     const isMobile = viewport.width < 5;
-    const tiltMultiplier = isMobile ? 0.15 : 0.4;
-    groupRef.current.rotation.y = mouseCurrent.current.x * tiltMultiplier + time * 0.08;
-    groupRef.current.rotation.x = -mouseCurrent.current.y * (tiltMultiplier * 0.6) + Math.sin(time * 0.25) * 0.05;
+    const tiltMultiplier = isMobile ? 0.12 : 0.32;
+    groupRef.current.rotation.y = mouseCurrent.current.x * tiltMultiplier + time * 0.07;
+    groupRef.current.rotation.x = -mouseCurrent.current.y * (tiltMultiplier * 0.5) + Math.sin(time * 0.2) * 0.04;
 
-    // Independent precession for interlocking sculptural components:
-    // 1. Central porcelain monolith counter-rotates gently
+    // Controlled differential precession
     if (coreRef.current) {
-      coreRef.current.rotation.y = -time * 0.09;
-      coreRef.current.rotation.z = Math.cos(time * 0.3) * 0.04;
+      coreRef.current.rotation.y = -time * 0.08;
+      coreRef.current.rotation.z = Math.cos(time * 0.25) * 0.03;
     }
 
-    // 2. Champagne Gold primary Mobius/Torus ring
-    if (goldRingRef.current) {
-      goldRingRef.current.rotation.x = 0.55 + Math.sin(time * 0.35) * 0.08;
-      goldRingRef.current.rotation.y = time * 0.14;
-      goldRingRef.current.rotation.z = Math.cos(time * 0.2) * 0.1;
+    if (outerBand1Ref.current) {
+      outerBand1Ref.current.rotation.x = 0.6 + Math.sin(time * 0.3) * 0.06;
+      outerBand1Ref.current.rotation.y = time * 0.11;
     }
 
-    // 3. Bronze secondary gyroscope armature
-    if (bronzeArmatureRef.current) {
-      bronzeArmatureRef.current.rotation.x = -0.4 + Math.cos(time * 0.3) * 0.06;
-      bronzeArmatureRef.current.rotation.z = -time * 0.11;
+    if (outerBand2Ref.current) {
+      outerBand2Ref.current.rotation.x = -0.45 + Math.cos(time * 0.25) * 0.05;
+      outerBand2Ref.current.rotation.z = -time * 0.09;
     }
 
-    // 4. Subtle outer horizon disc
-    if (outerHorizonRef.current) {
-      outerHorizonRef.current.rotation.z = time * 0.04;
-    }
-
-    // 5. Delicate orbiting satellite markers
-    if (satellite1Ref.current) {
-      const satTime1 = time * 0.45;
-      satellite1Ref.current.position.x = Math.cos(satTime1) * 1.7;
-      satellite1Ref.current.position.y = Math.sin(satTime1 * 0.8) * 0.45 + 0.3;
-      satellite1Ref.current.position.z = Math.sin(satTime1) * 1.7;
-      satellite1Ref.current.rotation.y = satTime1 * 2;
-    }
-
-    if (satellite2Ref.current) {
-      const satTime2 = -time * 0.35 + 2.5;
-      satellite2Ref.current.position.x = Math.cos(satTime2) * 1.45;
-      satellite2Ref.current.position.y = Math.sin(satTime2 * 1.2) * 0.5 - 0.2;
-      satellite2Ref.current.position.z = Math.sin(satTime2) * 1.45;
-      satellite2Ref.current.rotation.x = satTime2 * 1.5;
+    if (horizonRingRef.current) {
+      horizonRingRef.current.rotation.z = time * 0.03;
     }
   });
 
   return (
-    <group ref={groupRef} scale={0} position={[0, 0.1, 0]}>
-      {/* 1. Central Porcelain Monolith */}
-      <mesh ref={coreRef} material={materials.porcelain} castShadow receiveShadow>
-        <octahedronGeometry args={[0.82, 1]} />
+    <group ref={groupRef} scale={0} position={[0, 0.08, 0]}>
+      {/* 1. CENTRAL PRECISION MONOLITH (Faceted Octahedral Titanium Core) */}
+      <mesh ref={coreRef} material={materials.titaniumDark} castShadow receiveShadow>
+        <octahedronGeometry args={[0.85, 1]} />
       </mesh>
 
-      {/* Internal dark accent spine */}
-      <mesh material={materials.darkAccent} scale={[0.3, 0.9, 0.3]}>
-        <cylinderGeometry args={[0.15, 0.15, 1.2, 12]} />
+      {/* Internal Core Spine */}
+      <mesh material={materials.graphiteMetal} scale={[0.25, 0.95, 0.25]}>
+        <cylinderGeometry args={[0.16, 0.16, 1.25, 16]} />
       </mesh>
 
-      {/* 2. Primary Champagne Gold Sculptural Torus Band (Optimized vertices) */}
-      <group ref={goldRingRef}>
-        <mesh material={materials.champagneGold} castShadow>
-          <torusGeometry args={[1.22, 0.065, 24, 64]} />
+      {/* 2. PRIMARY PLATINUM ARCHITECTURAL BAND */}
+      <group ref={outerBand1Ref}>
+        <mesh material={materials.platinumBand} castShadow>
+          <torusGeometry args={[1.25, 0.055, 24, 64]} />
         </mesh>
-        <mesh material={materials.porcelain} position={[1.22, 0, 0]}>
-          <sphereGeometry args={[0.07, 16, 16]} />
+        {/* Precision blue accent clamp */}
+        <mesh material={materials.electricAccent} position={[1.25, 0, 0]}>
+          <boxGeometry args={[0.08, 0.12, 0.1]} />
         </mesh>
       </group>
 
-      {/* 3. Muted Bronze Gyroscopic Armature (Optimized vertices) */}
-      <group ref={bronzeArmatureRef}>
-        <mesh material={materials.mutedBronze} castShadow>
-          <torusGeometry args={[1.42, 0.038, 24, 64]} />
+      {/* 3. SECONDARY INTERLOCKING TITANIUM BAND */}
+      <group ref={outerBand2Ref}>
+        <mesh material={materials.graphiteMetal} castShadow>
+          <torusGeometry args={[1.45, 0.038, 24, 64]} />
         </mesh>
-        <mesh material={materials.champagneGold} position={[0, 1.42, 0]} rotation={[0, 0, Math.PI / 4]}>
-          <boxGeometry args={[0.08, 0.08, 0.14]} />
+        {/* Structural counterweight */}
+        <mesh material={materials.platinumBand} position={[0, 1.45, 0]} rotation={[0, 0, Math.PI / 4]}>
+          <boxGeometry args={[0.07, 0.07, 0.12]} />
         </mesh>
       </group>
 
-      {/* 4. Outer Delicate Horizon Ring */}
+      {/* 4. DELICATE HORIZON METRIC RING */}
       <mesh
-        ref={outerHorizonRef}
-        material={materials.champagneGold}
+        ref={horizonRingRef}
+        material={materials.platinumBand}
         rotation={[Math.PI / 2.3, 0, 0]}
       >
-        <ringGeometry args={[1.75, 1.765, 48]} />
+        <ringGeometry args={[1.76, 1.775, 48]} />
       </mesh>
 
-      {/* 5. Floating Satellite Markers */}
-      <mesh ref={satellite1Ref} material={materials.champagneGold} castShadow>
-        <octahedronGeometry args={[0.11, 0]} />
+      {/* 5. PRECISION SATELLITE PIVOTS */}
+      <mesh position={[1.5, 0.6, -0.4]} material={materials.electricAccent}>
+        <octahedronGeometry args={[0.08, 0]} />
       </mesh>
 
-      <mesh ref={satellite2Ref} material={materials.porcelain} castShadow>
-        <dodecahedronGeometry args={[0.09, 0]} />
+      <mesh position={[-1.4, -0.5, 0.5]} material={materials.platinumBand}>
+        <dodecahedronGeometry args={[0.07, 0]} />
       </mesh>
     </group>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  Studio Environment & Controlled Lighting                          */
+/*  Cinematic Studio Lighting (Pure Three.js, Zero CDN Dependencies) */
 /* ------------------------------------------------------------------ */
-function StudioScene({ reducedMotion }: { reducedMotion: boolean }) {
+function CinematicStudio({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <>
-      <ambientLight intensity={0.65} color="#FFF8ED" />
+      {/* Neutral ambient fill */}
+      <ambientLight intensity={0.45} color="#D6DAE4" />
 
-      {/* Key studio light: balanced shadow map (512x512) for older laptops */}
+      {/* Key Light: High-angle sharp key illuminating titanium facets */}
       <directionalLight
         position={[4, 6, 4]}
-        intensity={1.2}
-        color="#FFF6E8"
+        intensity={1.35}
+        color="#F0F4FA"
         castShadow
         shadow-mapSize={[512, 512]}
         shadow-camera-near={0.5}
@@ -268,28 +245,30 @@ function StudioScene({ reducedMotion }: { reducedMotion: boolean }) {
         shadow-camera-bottom={-2.5}
       />
 
-      <directionalLight position={[-4, 2, -3]} intensity={0.5} color="#E8EEF5" />
-      <pointLight position={[0, -2, 1.5]} intensity={0.3} color="#F2EBDD" />
+      {/* Cool-Blue Rim Light: Edge definition along metallic contours */}
+      <directionalLight position={[-4, 2, -3]} intensity={0.8} color="#8AA9FF" />
 
-      <Environment preset="studio" />
+      {/* Soft Platinum Counter-Fill */}
+      <pointLight position={[0, -2, 2]} intensity={0.35} color="#9298A2" />
 
+      {/* Organic floating buoyancy */}
       <Float
-        speed={reducedMotion ? 0 : 1.4}
-        rotationIntensity={reducedMotion ? 0 : 0.2}
-        floatIntensity={reducedMotion ? 0 : 0.35}
-        floatingRange={[-0.08, 0.08]}
+        speed={reducedMotion ? 0 : 1.3}
+        rotationIntensity={reducedMotion ? 0 : 0.15}
+        floatIntensity={reducedMotion ? 0 : 0.3}
+        floatingRange={[-0.06, 0.06]}
       >
-        <AtelierTotem reducedMotion={reducedMotion} />
+        <ArchitecturalMonolith reducedMotion={reducedMotion} />
       </Float>
 
-      {/* Soft contact shadow */}
+      {/* Soft grounded shadow beneath sculpture */}
       <ContactShadows
         position={[0, -1.85, 0]}
-        opacity={0.4}
+        opacity={0.65}
         scale={4.8}
         blur={2.4}
         far={3.2}
-        color="#383024"
+        color="#000000"
       />
     </>
   );
@@ -305,7 +284,7 @@ export default function HeroSculpture() {
     return supportsWebGL();
   });
 
-  // Watch for WebGL context loss on older laptop graphics cards
+  // Watch for WebGL context loss on older graphics cards
   useEffect(() => {
     const handleContextLost = (e: Event) => {
       e.preventDefault();
@@ -323,7 +302,7 @@ export default function HeroSculpture() {
   }
 
   return (
-    <div className="relative w-full h-full min-h-[350px] sm:min-h-[420px] lg:min-h-[540px]">
+    <div className="relative w-full h-full min-h-[360px] sm:min-h-[440px] lg:min-h-[560px]">
       <Canvas
         camera={{ position: [0, 0, 4.4], fov: 42 }}
         dpr={[1, 1.5]}
@@ -335,17 +314,17 @@ export default function HeroSculpture() {
         style={{ background: 'transparent' }}
       >
         <Suspense fallback={null}>
-          <StudioScene reducedMotion={reducedMotion} />
+          <CinematicStudio reducedMotion={reducedMotion} />
         </Suspense>
       </Canvas>
 
-      {/* Atelier discreet interactive annotation */}
+      {/* Architectural status badge */}
       <div
-        className="pointer-events-none absolute bottom-3 right-4 hidden sm:flex items-center gap-2 font-mono text-[10px] tracking-[0.18em] uppercase text-[#8B857A]/70"
+        className="pointer-events-none absolute bottom-3 right-4 hidden sm:flex items-center gap-2 font-mono text-[10px] tracking-[0.18em] uppercase text-[#9298A2]"
         aria-hidden="true"
       >
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C4A36B]" />
-        <span>INTERACTIVE TOTEM · 3D</span>
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#8AA9FF] animate-pulse" />
+        <span>INTERACTIVE 3D · TITANIUM MONOLITH</span>
       </div>
     </div>
   );

@@ -1,268 +1,315 @@
-import { useState, type FormEvent } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Send, ArrowUpRight, MapPin, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { motion, type Variants } from 'framer-motion';
+import { Mail, ArrowUpRight, Copy, Check, Send, MapPin } from 'lucide-react';
 import { Github, Linkedin } from './Icons';
 
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+const EMAIL_ADDRESS = 'manoranjanat527@gmail.com';
+const GITHUB_URL = 'https://github.com/manoranjan594';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/manoranjan-at-16508735b/';
 
-interface FormErrors {
-  name?: string;
-  email?: string;
-  message?: string;
-}
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+      delay: i * 0.08,
+    },
+  }),
+};
 
 export default function Contact() {
-  const [formData, setFormData] = useState<FormData>({
+  const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Please provide your name';
-    if (!formData.email.trim()) {
-      newErrors.email = 'Please provide your email address';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email format';
-    }
-    if (!formData.message.trim()) newErrors.message = 'Please provide your message';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(EMAIL_ADDRESS);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2400);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
+      setValidationError('Please complete your name, email, and message.');
+      return;
+    }
 
-    const subject = encodeURIComponent(
-      formData.subject || `Inquiry from ${formData.name}`
+    setValidationError('');
+    setSubmitted(true);
+
+    const subjectLine = encodeURIComponent(
+      formState.subject.trim() || `Portfolio Inquiry from ${formState.name}`
     );
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    const bodyContent = encodeURIComponent(
+      `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`
     );
-    const mailtoLink = `mailto:manoranjanat527@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = mailtoLink;
+
+    // Launch system email client directly
+    window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${subjectLine}&body=${bodyContent}`;
   };
-
-  const channels = [
-    {
-      label: 'Email',
-      value: 'manoranjanat527@gmail.com',
-      href: 'mailto:manoranjanat527@gmail.com',
-      icon: <Mail className="w-4 h-4" />,
-    },
-    {
-      label: 'GitHub',
-      value: 'github.com/manoranjan594',
-      href: 'https://github.com/manoranjan594',
-      icon: <Github className="w-4 h-4" />,
-    },
-    {
-      label: 'LinkedIn',
-      value: 'linkedin.com/in/manoranjan-at-16508735b',
-      href: 'https://www.linkedin.com/in/manoranjan-at-16508735b/',
-      icon: <Linkedin className="w-4 h-4" />,
-    },
-  ];
 
   return (
-    <section id="contact" className="py-24 lg:py-32 bg-[#090A0C] border-t border-[#1C2026]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="contact" className="py-28 lg:py-36 bg-[#0B1712] text-[#F8F7F2] border-t border-white/10 relative overflow-hidden scroll-mt-20">
+      {/* Ambient lighting accents */}
+      <div className="absolute top-1/4 left-0 w-[450px] h-[450px] bg-[#174D38]/25 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-[380px] h-[380px] bg-[#C7A66A]/10 rounded-full blur-[130px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55 }}
-          className="mb-14 lg:mb-18"
+          variants={fadeUp}
+          custom={0}
+          className="mb-16 lg:mb-20"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
-            <span className="section-tag">Contact</span>
+            <span className="w-2 h-2 rounded-full bg-[#C7A66A]" />
+            <span className="font-sans text-xs uppercase tracking-widest text-[#C7A66A] font-bold">
+              06 / Direct Communication
+            </span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#262B33]">
-            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#E7E9EC] tracking-tight">
-              Get in touch. <br />
-              <span className="text-[#8AA9FF] font-normal">Open to collaboration &amp; opportunities.</span>
-            </h2>
-            <p className="max-w-md text-sm text-[#9298A2] font-sans">
-              I welcome conversations about internship opportunities, hackathons, and software engineering collaborations.
-            </p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-white/10">
+            <div>
+              <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#F8F7F2] tracking-tight leading-[1.08]">
+                Let&apos;s Build Something <br />
+                <span className="font-normal text-[#A8B4AA]">Meaningful &amp; Impactful.</span>
+              </h2>
+              <p className="mt-3 text-base text-[#A8B4AA] max-w-2xl font-sans">
+                Open to software development internship opportunities, hackathon collaborations, open-source projects, and technical dialogues.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-[#A8B4AA] tracking-wide border-l border-white/10 pl-6 hidden lg:flex font-sans font-medium">
+              <MapPin className="w-4 h-4 text-[#C7A66A]" />
+              <span>Davangere, Karnataka, India</span>
+            </div>
           </div>
         </motion.div>
 
-        {/* Contact Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        {/* Contact Grid: Direct Cards (Left) & Form (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Form */}
+          {/* Left Column: Direct Links & Status (Cols 1-5) */}
           <motion.div
-            className="lg:col-span-7 border border-[#262B33] bg-[#14161A] p-7 sm:p-10 shadow-xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55 }}
+            variants={fadeUp}
+            custom={1}
+            className="lg:col-span-5 space-y-6"
           >
-            <div className="flex items-center justify-between pb-3 mb-6 border-b border-[#262B33]">
-              <span className="font-mono text-xs uppercase tracking-wider text-[#8AA9FF]">
-                Send an Email Message
-              </span>
-              <span className="font-mono text-[10px] text-[#9298A2]">Direct Mailto</span>
+            {/* Primary Email Card */}
+            <div className="rounded-3xl bg-[#102A1F]/90 backdrop-blur-xs border border-white/10 p-8 space-y-5 shadow-lg">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <span className="text-xs uppercase tracking-wider text-[#A8B4AA] font-bold flex items-center gap-2 font-sans">
+                  <Mail className="w-4 h-4 text-[#C7A66A]" />
+                  <span>Primary Inbox</span>
+                </span>
+                <span className="text-[10px] text-[#0B1712] bg-[#C7A66A] px-3 py-0.5 rounded-full font-black uppercase">
+                  Direct Response
+                </span>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-xs text-[#A8B4AA] block font-sans">Email Address:</span>
+                <a
+                  href={`mailto:${EMAIL_ADDRESS}`}
+                  className="font-sans text-sm xs:text-base sm:text-lg text-[#F8F7F2] hover:text-[#D5F2A3] transition-colors font-semibold tracking-tight block whitespace-nowrap overflow-hidden text-ellipsis"
+                  title={EMAIL_ADDRESS}
+                >
+                  {EMAIL_ADDRESS}
+                </a>
+              </div>
+
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0B1712] border border-white/15 hover:bg-[#174D38] text-xs font-semibold uppercase tracking-wider text-[#F8F7F2] transition-colors font-sans shadow-xs"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-[#D5F2A3]" />
+                      <span className="text-[#D5F2A3] font-bold">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-[#A8B4AA]" />
+                      <span>Copy Address</span>
+                    </>
+                  )}
+                </button>
+
+                <a
+                  href={`mailto:${EMAIL_ADDRESS}?subject=Software%20Opportunity%20Inquiry`}
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#C7A66A] hover:bg-[#d8b97d] text-xs font-bold uppercase tracking-wider text-[#0B1712] transition-colors font-sans shadow-sm"
+                >
+                  <span>Launch Mail</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            {/* Social Network Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-3xl bg-[#102A1F]/90 border border-white/10 hover:border-[#C7A66A] hover:bg-[#174D38] transition-all shadow-md group flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className="p-2.5 rounded-full bg-[#0B1712] text-[#C7A66A] group-hover:bg-[#102A1F] transition-colors">
+                    <Github className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-display font-bold text-sm text-[#F8F7F2] block group-hover:text-[#D5F2A3] transition-colors">
+                      GitHub
+                    </span>
+                    <span className="text-xs text-[#A8B4AA] font-sans">
+                      @manoranjan594
+                    </span>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-[#A8B4AA] group-hover:text-[#C7A66A] transition-colors" />
+              </a>
+
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-3xl bg-[#102A1F]/90 border border-white/10 hover:border-[#C7A66A] hover:bg-[#174D38] transition-all shadow-md group flex items-center justify-between"
+              >
+                <div className="flex items-center gap-3.5">
+                  <div className="p-2.5 rounded-full bg-[#0B1712] text-[#C7A66A] group-hover:bg-[#102A1F] transition-colors">
+                    <Linkedin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-display font-bold text-sm text-[#F8F7F2] block group-hover:text-[#D5F2A3] transition-colors">
+                      LinkedIn
+                    </span>
+                    <span className="text-xs text-[#A8B4AA] font-sans">
+                      Manoranjan AT
+                    </span>
+                  </div>
+                </div>
+                <ArrowUpRight className="w-4 h-4 text-[#A8B4AA] group-hover:text-[#C7A66A] transition-colors" />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Direct Transmission Form (Cols 6-12) */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={fadeUp}
+            custom={2}
+            className="lg:col-span-7 rounded-3xl bg-[#102A1F]/90 backdrop-blur-xs border border-white/10 p-8 sm:p-12 shadow-lg"
+          >
+            <div className="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
+              <span className="font-display font-bold text-lg text-[#F8F7F2]">
+                Send a Message
+              </span>
+              <span className="text-xs text-[#A8B4AA] font-sans">
+                Direct Dispatch
+              </span>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label htmlFor="name" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
-                    Name <span className="text-[#8AA9FF]">*</span>
+                  <label htmlFor="name" className="block text-xs uppercase tracking-wider text-[#A8B4AA] font-bold mb-2 font-sans">
+                    Your Name *
                   </label>
                   <input
                     type="text"
                     id="name"
                     required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors ${
-                      errors.name ? 'border-red-400' : 'border-[#262B33]'
-                    }`}
-                    placeholder="Your Name"
+                    value={formState.name}
+                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                    placeholder="Alex Chen"
+                    className="w-full px-4 py-3 rounded-2xl bg-[#0B1712] border border-white/15 text-sm text-[#F8F7F2] placeholder-[#7E8F82] focus:outline-none focus:border-[#C7A66A] focus:bg-[#07100D] transition-colors font-sans"
                   />
-                  {errors.name && <p className="mt-1 text-xs text-red-400 font-mono">{errors.name}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
-                    Email <span className="text-[#8AA9FF]">*</span>
+                  <label htmlFor="email" className="block text-xs uppercase tracking-wider text-[#A8B4AA] font-bold mb-2 font-sans">
+                    Your Email *
                   </label>
                   <input
                     type="email"
                     id="email"
                     required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors ${
-                      errors.email ? 'border-red-400' : 'border-[#262B33]'
-                    }`}
-                    placeholder="you@example.com"
+                    value={formState.email}
+                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                    placeholder="alex@example.com"
+                    className="w-full px-4 py-3 rounded-2xl bg-[#0B1712] border border-white/15 text-sm text-[#F8F7F2] placeholder-[#7E8F82] focus:outline-none focus:border-[#C7A66A] focus:bg-[#07100D] transition-colors font-sans"
                   />
-                  {errors.email && <p className="mt-1 text-xs text-red-400 font-mono">{errors.email}</p>}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
-                  Subject <span className="text-[#9298A2] font-normal lowercase">(optional)</span>
+                <label htmlFor="subject" className="block text-xs uppercase tracking-wider text-[#A8B4AA] font-bold mb-2 font-sans">
+                  Subject / Topic
                 </label>
                 <input
                   type="text"
                   id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#1C1F24] border border-[#262B33] text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors"
-                  placeholder="Internship / Project Discussion / General"
+                  value={formState.subject}
+                  onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
+                  placeholder="Internship opportunity / Technical collaboration"
+                  className="w-full px-4 py-3 rounded-2xl bg-[#0B1712] border border-white/15 text-sm text-[#F8F7F2] placeholder-[#7E8F82] focus:outline-none focus:border-[#C7A66A] focus:bg-[#07100D] transition-colors font-sans"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block font-mono text-[11px] uppercase tracking-wider text-[#E7E9EC] mb-2">
-                  Message <span className="text-[#8AA9FF]">*</span>
+                <label htmlFor="message" className="block text-xs uppercase tracking-wider text-[#A8B4AA] font-bold mb-2 font-sans">
+                  Message *
                 </label>
                 <textarea
                   id="message"
                   required
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className={`w-full px-4 py-3 bg-[#1C1F24] border text-[#E7E9EC] text-sm font-sans focus:outline-none focus:border-[#8AA9FF] transition-colors resize-y min-h-[110px] ${
-                    errors.message ? 'border-red-400' : 'border-[#262B33]'
-                  }`}
-                  placeholder="Tell me about your project, idea, or role..."
+                  rows={5}
+                  value={formState.message}
+                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                  placeholder="Share details regarding your opportunity or inquiry..."
+                  className="w-full px-4 py-3 rounded-2xl bg-[#0B1712] border border-white/15 text-sm text-[#F8F7F2] placeholder-[#7E8F82] focus:outline-none focus:border-[#C7A66A] focus:bg-[#07100D] transition-colors font-sans resize-none"
                 />
-                {errors.message && <p className="mt-1 text-xs text-red-400 font-mono">{errors.message}</p>}
               </div>
 
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2.5 bg-[#8AA9FF] text-[#090A0C] font-semibold px-7 py-3 font-mono text-xs uppercase tracking-wider hover:bg-[#A3BCFF] transition-colors"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Send via Email Client</span>
-                </button>
-                <p className="font-mono text-[10px] text-[#9298A2] mt-2">
-                  Pre-fills an email addressed to manoranjanat527@gmail.com in your default client.
-                </p>
-              </div>
+              {validationError && (
+                <p className="text-xs text-[#F87171] font-sans font-medium">{validationError}</p>
+              )}
+
+              {submitted && (
+                <div className="p-4 rounded-2xl bg-[#174D38] border border-[#D5F2A3]/30 text-xs text-[#D5F2A3] font-sans font-semibold">
+                  Mail client launched. If it did not open automatically, please send directly to {EMAIL_ADDRESS}.
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#C7A66A] hover:bg-[#d8b97d] text-[#0B1712] text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                <span>Dispatch Message</span>
+                <Send className="w-4 h-4" />
+              </button>
             </form>
-          </motion.div>
-
-          {/* Direct Channels & Details */}
-          <motion.div
-            className="lg:col-span-5 space-y-5"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-          >
-            <div className="border border-[#262B33] bg-[#14161A] p-6 sm:p-7">
-              <div className="font-mono text-xs uppercase tracking-wider text-[#8AA9FF] pb-3 mb-5 border-b border-[#262B33]">
-                Direct Contact Channels
-              </div>
-
-              <div className="space-y-3">
-                {channels.map((c) => (
-                  <a
-                    key={c.label}
-                    href={c.href}
-                    target={c.href.startsWith('mailto') ? undefined : '_blank'}
-                    rel={c.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-                    className="group flex items-center justify-between p-3.5 border border-[#262B33] bg-[#1C1F24] hover:border-[#8AA9FF]/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-8 h-8 rounded border border-[#262B33] bg-[#14161A] flex items-center justify-center text-[#8AA9FF] shrink-0">
-                        {c.icon}
-                      </div>
-                      <div className="min-w-0">
-                        <span className="font-mono text-[10px] uppercase text-[#9298A2] block">
-                          {c.label}
-                        </span>
-                        <span className="text-xs text-[#E7E9EC] font-medium truncate block">
-                          {c.value}
-                        </span>
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-4 h-4 text-[#9298A2] group-hover:text-[#8AA9FF] transition-colors shrink-0 ml-2" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Location & Status Note */}
-            <div className="border border-[#262B33] bg-[#14161A] p-6 space-y-3 font-mono text-xs text-[#9298A2]">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#8AA9FF] shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-[#E7E9EC] block">Davangere, Karnataka, India</span>
-                  <span className="text-[10px]">Bapuji Institute of Engineering &amp; Technology</span>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2.5 pt-2 border-t border-[#1C2026]">
-                <Clock className="w-4 h-4 text-[#8AA9FF] shrink-0 mt-0.5" />
-                <div>
-                  <span className="text-[#E7E9EC] block">Indian Standard Time (UTC+05:30)</span>
-                  <span className="text-[10px]">Active student &amp; developer</span>
-                </div>
-              </div>
-            </div>
           </motion.div>
 
         </div>

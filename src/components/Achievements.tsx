@@ -1,9 +1,10 @@
 import { motion, type Variants } from 'framer-motion';
-import { Award, Calendar, Building2, ArrowUpRight } from 'lucide-react';
+import { Calendar, Building2, ArrowUpRight } from 'lucide-react';
+import { Linkedin } from './Icons';
 
 interface Milestone {
   title: string;
-  type: 'Participation' | 'Appreciation' | 'Graded Certification';
+  category: 'Hackathon' | 'Certification' | 'Department Competition';
   issuer: string;
   date?: string;
   grade?: string;
@@ -12,193 +13,175 @@ interface Milestone {
 
 const milestones: Milestone[] = [
   {
-    title: 'V-Hack 10 Intercollegiate Hackathon',
-    type: 'Appreciation',
-    issuer: 'Intercollegiate Hackathon Consortium',
-    date: '2 November 2025',
-    details: 'Certificate of Appreciation for active collaboration and problem-solving in an intercollegiate hackathon.',
-  },
-  {
-    title: 'Web Development Certification',
-    type: 'Graded Certification',
-    issuer: 'Vishistaa Educational Association / Coding Pro',
-    grade: 'Grade A+',
-    details: 'Practical coursework certification covering semantic HTML, responsive CSS, and frontend fundamentals.',
-  },
-  {
-    title: 'C Programming Certification',
-    type: 'Graded Certification',
-    issuer: 'Vishistaa Educational Association / Coding Pro',
-    grade: 'Grade A',
-    details: 'Structured programming certification in C covering control structures, memory management, and pointers.',
-  },
-  {
     title: 'AI Fundamentals: Language and Vision in AI',
-    type: 'Graded Certification',
+    category: 'Certification',
     issuer: 'IBM SkillsBuild',
     date: '14 October 2026',
-    details: 'Foundational certification covering artificial intelligence concepts, natural language processing, and computer vision.',
+    details: 'Industry credential covering artificial intelligence foundations, natural language processing (NLP), and computer vision applications.',
+  },
+  {
+    title: 'V-Hack 10 Intercollegiate Hackathon',
+    category: 'Hackathon',
+    issuer: 'Intercollegiate Hackathon Consortium',
+    date: '2 November 2025',
+    details: 'Certificate of Appreciation for active collaboration, software ideation, and problem-solving in a fast-paced team environment.',
+  },
+  {
+    title: 'Web Development Practical Certification',
+    category: 'Certification',
+    issuer: 'Vishistaa Educational Association / Coding Pro',
+    grade: 'Grade A+',
+    details: 'Hands-on practical training covering semantic HTML5 structure, responsive CSS3 styling, and foundational web standards.',
+  },
+  {
+    title: 'C Programming Practical Certification',
+    category: 'Certification',
+    issuer: 'Vishistaa Educational Association / Coding Pro',
+    grade: 'Grade A',
+    details: 'Structured programming coursework covering control logic, memory allocation, arrays, and pointer manipulation.',
   },
   {
     title: 'Code Quest 2.0 Coding Challenge',
-    type: 'Participation',
+    category: 'Department Competition',
     issuer: 'Department of CS&E, BIET',
     date: '30 October 2025',
-    details: 'Certificate of Participation in department-level algorithmic problem-solving and coding competition.',
+    details: 'Certificate of Participation in department-level timed algorithmic challenge testing problem-solving and coding speed.',
   },
   {
-    title: 'Cipher Chase: Problem-Solving Digital Hunt',
-    type: 'Participation',
+    title: 'Cipher Chase: Computational Logic Hunt',
+    category: 'Department Competition',
     issuer: 'BIET',
     date: '26 September 2025',
-    details: 'Computational logic and critical-thinking competition focusing on decryption challenges and puzzle solving.',
+    details: 'Computational logic and analytical thinking competition focusing on cipher decoding and structured puzzle solving.',
   },
   {
     title: 'Opticode 2.0 Optimization Contest',
-    type: 'Participation',
+    category: 'Department Competition',
     issuer: 'Technical Club of BIET',
     date: '1 April 2026',
-    details: 'Certificate of Participation in college-wide coding competition centered on code optimization and problem analysis.',
+    details: 'Certificate of Participation in college-wide coding competition centered on code efficiency, logic refinement, and edge-case handling.',
   },
 ];
 
-const badgeColors = {
-  'Participation': 'border-[#262B33] bg-[#1C1F24] text-[#9298A2]',
-  'Appreciation': 'border-[#8AA9FF]/30 bg-[#8AA9FF]/10 text-[#8AA9FF]',
-  'Graded Certification': 'border-[#262B33] bg-[#14161A] text-[#E7E9EC]',
-};
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: {
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: 'easeOut' },
-  },
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+      delay: i * 0.08,
+    },
+  }),
 };
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-24 lg:py-32 bg-[#090A0C] border-t border-[#1C2026]">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="achievements" className="py-28 lg:py-36 bg-[#0B1712] text-[#F8F7F2] border-t border-white/10 relative overflow-hidden scroll-mt-20">
+      {/* Subtle ambient lighting */}
+      <div className="absolute top-1/4 right-0 w-[450px] h-[450px] bg-[#174D38]/30 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[350px] h-[350px] bg-[#C7A66A]/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55 }}
-          className="mb-14 lg:mb-18"
+          variants={fadeUp}
+          custom={0}
+          className="mb-16 lg:mb-20"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
-            <span className="section-tag">Certifications &amp; Achievements</span>
+            <span className="w-2 h-2 rounded-full bg-[#C7A66A]" />
+            <span className="font-sans text-xs uppercase tracking-widest text-[#C7A66A] font-bold">
+              04 / Verified Credentials &amp; Contests
+            </span>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[#262B33]">
-            <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#E7E9EC] tracking-tight">
-              Recognitions, certifications &amp; <br />
-              <span className="text-[#8AA9FF] font-normal">verified milestones.</span>
-            </h2>
-            <p className="max-w-md text-sm text-[#9298A2] font-sans">
-              A factual record of course certifications, hackathon appreciation, and competition participation throughout my computer science degree.
-            </p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-white/10">
+            <div>
+              <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[#F8F7F2] tracking-tight leading-[1.08]">
+                Milestones &amp; Proof. <br />
+                <span className="font-normal text-[#A8B4AA]">Verified certifications &amp; hackathons.</span>
+              </h2>
+              <p className="mt-3 text-base text-[#A8B4AA] max-w-2xl font-sans">
+                A verified record of certifications, industry credentials, and intercollegiate coding competitions completed throughout my studies.
+              </p>
+            </div>
+
+            <a
+              href="https://www.linkedin.com/in/manoranjan-at-16508735b/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#102A1F] border border-white/15 hover:border-[#C7A66A] hover:bg-[#174D38] text-xs font-sans font-semibold uppercase tracking-wider text-[#F8F7F2] transition-colors shadow-xs"
+            >
+              <Linkedin className="w-4 h-4 text-[#C7A66A]" />
+              <span>Verify on LinkedIn</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#C7A66A]" />
+            </a>
           </div>
         </motion.div>
 
-        {/* Timeline / Editorial List */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="space-y-4 mb-12"
-        >
-          {milestones.map((item) => (
+        {/* Milestone Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {milestones.map((item, index) => (
             <motion.div
               key={item.title}
-              variants={itemVariants}
-              className="border border-[#262B33] bg-[#14161A] p-5 sm:p-6 hover:border-[#8AA9FF]/40 transition-colors duration-200"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={fadeUp}
+              custom={index}
+              className="rounded-3xl bg-[#102A1F]/90 backdrop-blur-xs border border-white/10 p-8 shadow-lg hover:border-[#C7A66A]/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 mb-3 border-b border-[#1C2026]">
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 border ${
-                      badgeColors[item.type]
-                    }`}
-                  >
-                    {item.type}
+              <div>
+                {/* Header */}
+                <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+                  <span className="text-[10px] uppercase tracking-wider px-3 py-1 rounded-full bg-[#174D38] text-[#D5F2A3] border border-[#D5F2A3]/20 font-bold font-sans">
+                    {item.category}
                   </span>
-                  <h3 className="font-display font-semibold text-base sm:text-lg text-[#E7E9EC]">
-                    {item.title}
-                  </h3>
+                  {item.grade ? (
+                    <span className="text-xs text-[#0B1712] font-black font-sans flex items-center gap-1 bg-[#C7A66A] px-2.5 py-0.5 rounded-full">
+                      ★ {item.grade}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-[#C7A66A] font-bold font-mono">
+                      0{index + 1}
+                    </span>
+                  )}
                 </div>
 
-                {item.grade && (
-                  <span className="font-mono text-xs font-semibold text-[#8AA9FF] bg-[#8AA9FF]/10 px-2.5 py-0.5 border border-[#8AA9FF]/30 self-start md:self-auto">
-                    {item.grade}
-                  </span>
-                )}
+                {/* Title */}
+                <h3 className="font-display font-bold text-xl text-[#F8F7F2] mb-3 group-hover:text-[#D5F2A3] transition-colors leading-snug">
+                  {item.title}
+                </h3>
+
+                {/* Details */}
+                <p className="text-sm text-[#A8B4AA] leading-relaxed font-sans mb-6">
+                  {item.details}
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-3 text-xs text-[#9298A2]">
-                <div className="md:col-span-4 flex items-center gap-2">
-                  <Building2 className="w-3.5 h-3.5 text-[#8AA9FF] shrink-0" />
-                  <span>{item.issuer}</span>
+              {/* Issuer & Date Footer */}
+              <div className="pt-4 border-t border-white/10 space-y-2 text-xs font-sans text-[#A8B4AA]">
+                <div className="flex items-center gap-2 text-[#F8F7F2] font-medium">
+                  <Building2 className="w-4 h-4 text-[#C7A66A]" />
+                  <span className="truncate">{item.issuer}</span>
                 </div>
-
                 {item.date && (
-                  <div className="md:col-span-3 flex items-center gap-2 font-mono">
-                    <Calendar className="w-3.5 h-3.5 text-[#9298A2] shrink-0" />
+                  <div className="flex items-center gap-2 text-[#A8B4AA]">
+                    <Calendar className="w-3.5 h-3.5" />
                     <span>{item.date}</span>
                   </div>
                 )}
-
-                <div className="md:col-span-5 text-[#9298A2] leading-relaxed">
-                  {item.details}
-                </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Google Cloud learning note */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="border border-[#262B33] bg-[#14161A] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-5"
-        >
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Award className="w-4 h-4 text-[#8AA9FF]" />
-              <h4 className="font-display font-medium text-base text-[#E7E9EC]">
-                Google Cloud Learning Achievements
-              </h4>
-            </div>
-            <p className="text-xs text-[#9298A2] max-w-2xl leading-relaxed">
-              Additional completion records covering AI infrastructure, Speech and Language APIs, and Cloud Computing concepts are documented on my LinkedIn profile.
-            </p>
-          </div>
-
-          <a
-            href="https://www.linkedin.com/in/manoranjan-at-16508735b/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider px-4 py-2.5 border border-[#262B33] bg-[#1C1F24] text-[#E7E9EC] hover:border-[#8AA9FF]/60 hover:text-[#8AA9FF] transition-colors shrink-0"
-          >
-            <span>View on LinkedIn</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-[#8AA9FF]" />
-          </a>
-        </motion.div>
       </div>
     </section>
   );

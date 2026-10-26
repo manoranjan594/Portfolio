@@ -1,34 +1,30 @@
 export function SculptureFallback() {
   return (
-    <div className="relative w-full h-full min-h-[360px] sm:min-h-[440px] flex items-center justify-center p-6 select-none">
-      <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
-        {/* Outer technical orbital ring */}
-        <div className="absolute inset-0 rounded-full border border-[#262B33] opacity-60 animate-[spin_60s_linear_infinite]" />
+    <div className="relative w-full h-full min-h-[420px] sm:min-h-[520px] lg:min-h-[620px] flex items-center justify-center p-6 select-none">
+      <div className="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center">
+        {/* Soft Emerald-Sage Ambient Glow */}
+        <div className="absolute inset-0 rounded-full bg-[#174D38]/40 blur-3xl pointer-events-none" />
+        <div className="absolute inset-8 rounded-full bg-[#D5F2A3]/10 blur-2xl pointer-events-none" />
+
+        {/* Outer Orbiting Champagne Gold Loop */}
+        <div className="absolute inset-0 rounded-full border border-[#C7A66A]/40 animate-[spin_35s_linear_infinite]" />
         
-        {/* Concentric angled titanium ring */}
+        {/* Interlocking Angled Champagne Gold Ring */}
         <div
-          className="absolute inset-6 rounded-full border border-[#262B33]"
-          style={{ transform: 'rotate(45deg) scaleX(0.75)' }}
+          className="absolute inset-6 rounded-full border-2 border-[#C7A66A]/70"
+          style={{ transform: 'rotate(35deg) scaleX(0.85)' }}
         />
 
-        {/* Electric blue subtle focal ring */}
+        {/* Counter-rotating Inner Platinum-Chrome Ring */}
         <div
-          className="absolute inset-12 rounded-full border border-[#8AA9FF]/30 shadow-[0_0_30px_rgba(138,169,255,0.08)]"
-          style={{ transform: 'rotate(-30deg) scaleY(0.7)' }}
+          className="absolute inset-12 rounded-full border border-white/30 animate-[spin_20s_linear_infinite_reverse]"
+          style={{ transform: 'rotate(-25deg) scaleY(0.88)' }}
         />
 
-        {/* Central precision monolith */}
-        <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-lg bg-gradient-to-br from-[#1C1F24] via-[#14161A] to-[#090A0C] border border-[#262B33] shadow-2xl flex items-center justify-center rotate-45 transform">
-          <div className="w-10 h-10 rounded border border-[#8AA9FF]/40 flex items-center justify-center">
-            <span className="font-mono text-[10px] text-[#8AA9FF] font-semibold tracking-widest uppercase">
-              3D
-            </span>
-          </div>
-        </div>
-
-        {/* Bottom specification badge */}
-        <div className="absolute -bottom-2 right-4 font-mono text-[10px] tracking-[0.2em] uppercase text-[#9298A2]">
-          TITANIUM MONOLITH
+        {/* Central Luminous Emerald Glass Core */}
+        <div className="relative w-36 h-36 rounded-full bg-gradient-to-br from-[#1A583E] via-[#174D38] to-[#0A2016] border border-[#D5F2A3]/40 shadow-[0_0_50px_rgba(23,77,56,0.6)] flex items-center justify-center">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-[#D5F2A3]/30 to-white/20 border border-white/40 blur-[1px]" />
+          <div className="absolute w-4 h-4 rounded-full bg-[#D5F2A3] blur-xs animate-ping opacity-75" />
         </div>
       </div>
     </div>

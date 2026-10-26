@@ -1,156 +1,180 @@
 import React, { Suspense } from 'react';
 import { motion, type Variants } from 'framer-motion';
-import { ArrowDown, ArrowUpRight } from 'lucide-react';
-import { Github } from './Icons';
+import { ArrowRight } from 'lucide-react';
+import {
+  PythonLogo,
+  CLogo,
+  JavaLogo,
+  Html5Logo,
+  Css3Logo,
+  Github,
+} from './Icons';
 import { SculptureFallback } from './SculptureFallback';
 import { ErrorBoundary } from './ErrorBoundary';
 
-/* ------------------------------------------------------------------ */
-/*  Lazy-load the 3D sculpture                                        */
-/* ------------------------------------------------------------------ */
 const HeroSculpture = React.lazy(() => import('./HeroSculpture'));
 
 const containerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
     },
   },
 };
 
-const childVariants: Variants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-const sculptureVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 },
-  },
-};
+const quickTech = [
+  { name: 'Python', icon: <PythonLogo className="w-4 h-4" /> },
+  { name: 'C', icon: <CLogo className="w-4 h-4" /> },
+  { name: 'Java', icon: <JavaLogo className="w-4 h-4" /> },
+  { name: 'HTML5', icon: <Html5Logo className="w-4 h-4" /> },
+  { name: 'CSS3', icon: <Css3Logo className="w-4 h-4" /> },
+  { name: 'GitHub', icon: <Github className="w-4 h-4 text-white" /> },
+];
 
 export default function Hero() {
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const el = document.getElementById(targetId);
+    if (el) {
+      const navOffset = 74;
+      const topPos = el.getBoundingClientRect().top + window.scrollY - navOffset;
+      window.scrollTo({ top: Math.max(0, topPos), behavior: 'smooth' });
+    }
+  };
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen bg-[#090A0C] flex flex-col justify-between overflow-hidden pt-24 pb-8 lg:pt-28"
-      style={{ minHeight: '100svh' }}
+      className="relative min-h-screen bg-[#081711] text-[#F8F7F2] flex flex-col justify-between overflow-hidden pt-28 sm:pt-32 pb-8 sm:pb-12 scroll-mt-0"
     >
-      {/* Background Architectural Grid Accent */}
-      <div className="pointer-events-none absolute inset-0 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-12 opacity-20">
-        <div className="col-span-7 border-r border-[#262B33] h-full hidden md:block" />
+      {/* ============================================================== */}
+      {/* CINEMATIC FULL-WIDTH LANDSCAPE SCENE (Mountains, Arch & Sun)    */}
+      {/* ============================================================== */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+        <img
+          src="/hero-landscape-bg.jpg"
+          alt="Cinematic Alpine Observatory Pavilion"
+          className="w-full h-full object-cover object-center lg:object-[65%_center] opacity-95 filter brightness-[0.92] contrast-[1.04]"
+        />
+        {/* Editorial Shadow Vignette on left for pristine typographic contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#081711] via-[#081711]/85 sm:via-[#081711]/65 to-transparent pointer-events-none" />
+        {/* Soft bottom atmospheric fade to smoothly transition into About section */}
+        <div className="absolute bottom-0 left-0 right-0 h-36 bg-gradient-to-t from-[#081711] via-[#081711]/70 to-transparent pointer-events-none" />
       </div>
 
-      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12 my-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+      {/* Main Hero Content Container */}
+      <div className="relative mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12 my-auto z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
           {/* ============================================================== */}
-          {/* LEFT: EDITORIAL TYPOGRAPHY & IDENTITY (Cols 1-7)               */}
+          {/* LEFT COLUMN: INTRODUCTION & IDENTITY (Cols 1-7)               */}
           {/* ============================================================== */}
           <motion.div
-            className="lg:col-span-7 z-10"
+            className="lg:col-span-7 z-20 space-y-5"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {/* Professional Role Label */}
-            <motion.div variants={childVariants} className="flex items-center gap-2.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#8AA9FF]" />
-              <span className="font-mono text-xs uppercase tracking-[0.18em] text-[#8AA9FF] font-medium">
-                Aspiring Software Developer
+            {/* Subtle Friendly Kicker with gold line */}
+            <motion.div variants={itemVariants} className="flex items-center gap-2.5">
+              <span className="text-sm font-sans text-[#D1D9D3] font-medium tracking-wide">
+                Hi, I’m
               </span>
-              <span className="text-[#262B33]">/</span>
-              <span className="font-mono text-xs uppercase tracking-[0.14em] text-[#9298A2]">
-                CS&amp;E Student
-              </span>
+              <span className="w-7 h-[1px] bg-[#C7A66A]/70" />
             </motion.div>
 
-            {/* Major Heading: Name */}
+            {/* Main Name Headline — Single line on desktop in elegant editorial serif */}
             <motion.h1
-              variants={childVariants}
-              className="font-display font-bold text-4xl sm:text-6xl lg:text-7xl text-[#E7E9EC] tracking-tight leading-none mb-4"
+              variants={itemVariants}
+              className="font-editorial font-bold text-3xl xs:text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] text-[#F8F7F2] tracking-tight leading-[1.1] select-none whitespace-normal lg:whitespace-nowrap drop-shadow-xs"
             >
-              Manoranjan AT
+              Manoranjan <span className="text-[#D5F2A3]">AT</span>
             </motion.h1>
 
-            {/* Core Statement */}
+            {/* Subtitle: Aspiring Software Developer */}
             <motion.h2
-              variants={childVariants}
-              className="font-display text-2xl sm:text-3xl lg:text-4xl text-[#9298A2] font-normal leading-snug tracking-tight mb-6"
+              variants={itemVariants}
+              className="font-sans font-medium text-base sm:text-lg lg:text-xl text-[#E5E7DF] tracking-wide"
             >
-              Building thoughtful <span className="text-[#E7E9EC] font-semibold">digital experiences.</span>
+              Aspiring Software Developer
             </motion.h2>
 
-            {/* Supporting Bio Copy */}
+            {/* Introduction Narrative */}
             <motion.p
-              variants={childVariants}
-              className="max-w-xl text-base sm:text-lg leading-relaxed text-[#9298A2] mb-10 font-sans"
+              variants={itemVariants}
+              className="font-sans text-sm sm:text-base text-[#D1D9D3] leading-relaxed max-w-lg font-normal"
             >
-              Third-semester Computer Science and Engineering student at Bapuji Institute of Engineering &amp; Technology, developing solid fundamentals in software engineering, programming, and web development through hands-on practical projects.
+              I’m a 3rd-semester CSE student, passionate about building creative solutions with code. I love learning, exploring new technologies and turning ideas into real-world products.
             </motion.p>
 
-            {/* Action Buttons */}
+            {/* Two Action Buttons: View My Projects & Let's Connect */}
             <motion.div
-              variants={childVariants}
-              className="flex flex-wrap items-center gap-4 sm:gap-6 pt-1"
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-4 sm:gap-5 pt-2"
             >
+              {/* Primary Action Button: View My Projects */}
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-2.5 bg-[#8AA9FF] text-[#090A0C] font-semibold px-6 py-3.5 font-mono text-xs uppercase tracking-wider hover:bg-[#A3BCFF] transition-all duration-200"
+                onClick={(e) => handleScrollTo(e, 'projects')}
+                className="inline-flex items-center gap-2.5 bg-[#D5F2A3] hover:bg-[#c4e68e] text-[#081711] font-bold px-7 py-3.5 rounded-full text-xs uppercase tracking-wider transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer"
               >
-                <span>Explore Projects</span>
-                <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+                <span>View My Projects</span>
+                <ArrowRight className="w-4 h-4 text-[#081711]" />
               </a>
 
+              {/* Secondary Action Button: Let's Connect */}
               <a
-                href="https://github.com/manoranjan594"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2.5 border border-[#262B33] bg-[#14161A] text-[#E7E9EC] px-6 py-3.5 font-mono text-xs uppercase tracking-wider hover:border-[#8AA9FF]/60 hover:text-[#8AA9FF] transition-all duration-200"
+                href="#contact"
+                onClick={(e) => handleScrollTo(e, 'contact')}
+                className="inline-flex items-center gap-2.5 border border-white/25 bg-white/5 hover:bg-white/10 text-[#F8F7F2] font-semibold px-6 py-3.5 rounded-full text-xs uppercase tracking-wider transition-all duration-200 backdrop-blur-sm cursor-pointer"
               >
-                <Github className="w-4 h-4 text-[#9298A2] group-hover:text-[#8AA9FF] transition-colors" />
-                <span>GitHub Profile</span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-[#9298A2] group-hover:text-[#8AA9FF] transition-colors" />
+                <span>Let's Connect</span>
               </a>
             </motion.div>
 
-            {/* Current Status Tracker */}
+            {/* Quick Tech Strip (Clean minimal row matching reference image) */}
             <motion.div
-              variants={childVariants}
-              className="mt-12 pt-6 border-t border-[#1C2026] flex flex-wrap items-center gap-4 text-xs font-mono text-[#9298A2]"
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-4 sm:gap-6 pt-4 text-[#D1D9D3]"
             >
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[#E7E9EC]">Currently Learning &amp; Building</span>
-              </span>
-              <span className="text-[#262B33]">·</span>
-              <span>Open to Software Internships</span>
+              {quickTech.map((item) => (
+                <div
+                  key={item.name}
+                  className="inline-flex items-center gap-1.5 text-xs text-[#E5E7DF] font-sans hover:text-[#D5F2A3] transition-colors"
+                >
+                  <div className="w-4 h-4 flex items-center justify-center opacity-90">
+                    {item.icon}
+                  </div>
+                  <span className="font-medium text-[11px] sm:text-xs tracking-wide">
+                    {item.name}
+                  </span>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
 
           {/* ============================================================== */}
-          {/* RIGHT: TITANIUM MONOLITH 3D SCULPTURE (Cols 8-12)             */}
+          {/* RIGHT COLUMN: 3D SCULPTURAL CENTERPIECE (Cols 8-12)            */}
           {/* ============================================================== */}
           <motion.div
-            className="lg:col-span-5 relative flex items-center justify-center min-h-[360px] sm:min-h-[440px] lg:min-h-[560px]"
-            variants={sculptureVariants}
-            initial="hidden"
-            animate="visible"
+            className="lg:col-span-5 relative w-full flex items-center justify-center"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, ease: 'easeOut', delay: 0.12 }}
           >
-            {/* Subtle background glow */}
-            <div className="pointer-events-none absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-[#8AA9FF]/5 blur-3xl" />
-
-            {/* ErrorBoundary + Suspense guarantees zero white screen on any device */}
-            <div className="relative w-full h-full">
+            {/* Seamless 3D Viewport positioned above the scene's pedestal */}
+            <div className="relative w-full h-[420px] sm:h-[500px] lg:h-[580px] flex items-center justify-center">
               <ErrorBoundary fallback={<SculptureFallback />}>
                 <Suspense fallback={<SculptureFallback />}>
                   <HeroSculpture />
@@ -163,26 +187,23 @@ export default function Hero() {
       </div>
 
       {/* ============================================================== */}
-      {/* BOTTOM TECHNICAL SPECIFICATION LEDGER                           */}
+      {/* BOTTOM SCROLL INDICATOR (Near bottom right)                     */}
       {/* ============================================================== */}
-      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12 pt-8">
-        <div className="border-t border-[#1C2026] pt-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-mono tracking-wider uppercase text-[#9298A2]">
-          <div>
-            <span className="block text-[#8AA9FF] font-medium">Institution</span>
-            <span className="text-[#E7E9EC]">BIET Davangere</span>
-          </div>
-          <div>
-            <span className="block text-[#8AA9FF] font-medium">Program</span>
-            <span className="text-[#E7E9EC]">B.E. CS&amp;E (3rd Sem)</span>
-          </div>
-          <div>
-            <span className="block text-[#8AA9FF] font-medium">Focus</span>
-            <span className="text-[#E7E9EC]">Software Development</span>
-          </div>
-          <div className="text-right hidden md:block">
-            <span className="block text-[#8AA9FF] font-medium">Location</span>
-            <span className="text-[#E7E9EC]">Karnataka, India</span>
-          </div>
+      <div className="relative mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12 pt-4 z-10">
+        <div className="flex items-center justify-end">
+          <a
+            href="#about"
+            onClick={(e) => handleScrollTo(e, 'about')}
+            className="group flex flex-col items-center gap-1.5 text-[#A8B4AA] hover:text-[#D5F2A3] transition-colors cursor-pointer"
+            aria-label="Scroll to About Me"
+          >
+            <div className="w-5 h-8 rounded-full border border-white/30 group-hover:border-[#D5F2A3] flex items-start justify-center p-1 transition-colors backdrop-blur-sm">
+              <span className="w-1 h-1.5 rounded-full bg-[#D5F2A3] group-hover:translate-y-2 transition-transform duration-300" />
+            </div>
+            <span className="text-[10px] uppercase font-sans tracking-widest text-[#D1D9D3] group-hover:text-[#D5F2A3]">
+              Scroll
+            </span>
+          </a>
         </div>
       </div>
     </section>
